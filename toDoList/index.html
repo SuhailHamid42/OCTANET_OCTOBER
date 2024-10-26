@@ -1,204 +1,144 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body {
-  margin: 0;
-  min-width: 250px;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple To-Do List</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* Include the padding and border in an element's total width and height */
-* {
-  box-sizing: border-box;
-}
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-/* Remove margins and padding from the list */
-ul {
-  margin: 0;
-  padding: 0;
-}
+        .todo-container {
+            background: #fff;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-/* Style the list items */
-ul li {
-  cursor: pointer;
-  position: relative;
-  padding: 12px 8px 12px 40px;
-  list-style-type: none;
-  background: #eee;
-  font-size: 18px;
-  transition: 0.2s;
-  
-  /* make the list items unselectable */
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
 
-/* Set all odd list items to a different color (zebra-stripes) */
-ul li:nth-child(odd) {
-  background: #bfd3f2;
-}
+        .input-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
 
-/* Darker background-color on hover */
-ul li:hover {
-  background: #478cf4;
-}
+        .input-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
 
-/* When clicked on, add a background color and strike out text */
-ul li.checked {
-  background: #0061f9;
-  color: #fff;
-  text-decoration: line-through;
-}
+        .input-container button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            font-size: 1rem;
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
 
-/* Add a "checked" mark when clicked on */
-ul li.checked::before {
-  content: '';
-  position: absolute;
-  border-color: #fff;
-  border-style: solid;
-  border-width: 0 2px 2px 0;
-  top: 10px;
-  left: 16px;
-  transform: rotate(45deg);
-  height: 15px;
-  width: 7px;
-}
+        .input-container button:hover {
+            background: #555;
+        }
 
-/* Style the close button */
-.close {
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: 12px 16px 12px 16px;
-}
+        ul {
+            list-style-type: none;
+        }
 
-.close:hover {
-  background-color: #056aca;
-  color: white;
-}
+        li {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-/* Style the header */
-.header {
-  background-color: #056aca;
-  padding: 30px 40px;
-  color: white;
-  text-align: center;
-}
+        li .delete-btn {
+            background: #ff4d4d;
+            border: none;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.3s;
+        }
 
-/* Clear floats after the header */
-.header:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Style the input */
-input {
-  margin: 0;
-  border: none;
-  border-radius: 0;
-  width: 75%;
-  padding: 10px;
-  float: left;
-  font-size: 16px;
-}
-
-/* Style the "Add" button */
-.addBtn {
-  padding: 10px;
-  width: 25%;
-  background: #d9d9d9;
-  color: #555;
-  float: left;
-  text-align: center;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-  border-radius: 0;
-}
-
-.addBtn:hover {
-  background-color: #bbb;
-}
-</style>
+        li .delete-btn:hover {
+            background: #ff3333;
+        }
+    </style>
 </head>
-
 <body>
 
-<div id="myDIV" class="header"> 
-  <h2 style="margin:5px">My To Do List Using Javascript</h2>
-  <input type="text" id="myInput" placeholder="Title...">
-  <span onclick="newElement()" class="addBtn">Add</span>
+<div class="todo-container">
+    <h2>To-Do List</h2>
+    <div class="input-container">
+        <input type="text" id="todo-input" placeholder="Add a new task...">
+        <button onclick="addTodo()">Add</button>
+    </div>
+    <ul id="todo-list">
+        <!-- To-do items will be appended here -->
+    </ul>
 </div>
 
-<ul id="myUL">
-  <li>Hit the gym</li>
-  <li class="checked">Pay bills</li>
-  <li>Meet George</li>
-  <li>Buy eggs</li>
-  <li>Read a book</li>
-  <li>Organize office</li>
-</ul>
-
 <script>
-// Create a "close" button and append it to each list item
-var myNodelist = document.getElementsByTagName("LI");
-var i;
-for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myNodelist[i].appendChild(span);
-}
+    function addTodo() {
+        // Get the input value
+        const todoInput = document.getElementById('todo-input');
+        const todoText = todoInput.value.trim();
 
-// Click on a close button to hide the current list item
-var close = document.getElementsByClassName("close");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-    var div = this.parentElement;
-    div.style.display = "none";
-  }
-}
+        // If the input is empty, return
+        if (todoText === '') return;
 
-// Add a "checked" symbol when clicking on a list item
-var list = document.querySelector('ul');
-list.addEventListener('click', function(ev) {
-  if (ev.target.tagName === 'LI') {
-    ev.target.classList.toggle('checked');
-  }
-}, false);
+        // Create a new list item (li)
+        const todoItem = document.createElement('li');
+        todoItem.textContent = todoText;
 
-// Create a new list item when clicking on the "Add" button
-function newElement() {
-  var li = document.createElement("li");
-  var inputValue = document.getElementById("myInput").value;
-  var t = document.createTextNode(inputValue);
-  li.appendChild(t);
-  if (inputValue === '') {
-    alert("You must write something!");
-  } else {
-    document.getElementById("myUL").appendChild(li);
-  }
-  document.getElementById("myInput").value = "";
+        // Create a delete button for the item
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.classList.add('delete-btn');
+        deleteBtn.onclick = function() {
+            todoItem.remove();
+        };
 
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  li.appendChild(span);
+        // Append the delete button to the list item
+        todoItem.appendChild(deleteBtn);
 
-  for (i = 0; i < close.length; i++) {
-    close[i].onclick = function() {
-      var div = this.parentElement;
-      div.style.display = "none";
+        // Append the list item to the to-do list
+        document.getElementById('todo-list').appendChild(todoItem);
+
+        // Clear the input field
+        todoInput.value = '';
     }
-  }
-}
 </script>
 
 </body>

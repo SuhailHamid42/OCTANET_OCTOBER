@@ -3,6 +3,11 @@
   font-family: Roboto, Arial, Helvetica, sans-serif;
 }
 
+/* ::before and ::after Pseudo-Elements:
+These pseudo-elements allow you to insert content before or after the content of an element using CSS.
+
+They're commonly used for adding cosmetic elements to the page that are not part of the document's actual content. */
+
 body {
   margin: 0;
 }

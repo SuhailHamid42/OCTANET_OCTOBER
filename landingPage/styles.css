@@ -166,7 +166,7 @@ section {
 }
 /* animating the main image   */
 
-@keyframes float {
+/* @keyframes float {
     0%,
     100% {
         transform: translateY(0rem);
@@ -174,7 +174,7 @@ section {
     50% {
         transform: translateY(3rem);
     }
-}
+} */
 
 .home .content h3 {
     font-size: 5rem;
